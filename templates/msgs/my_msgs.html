@@ -1,0 +1,94 @@
+<title>My HaterBox</title>
+{% load static %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'msgs/style.css' %}">
+{% block content %}      
+
+{% load crispy_forms_tags %}
+{% load bootstrap5 %}
+
+<!--Navbar-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="False" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav mr-auto">
+        {% if user.is_authenticated %}
+        
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Welcome, {{user.username}}</a>
+        </li>
+  
+        {% else %}
+  
+        <li class="nav-item">
+          <a class="nav-link" href="/register">Register</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/login">Login</a>
+        </li>
+  
+    
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+{% if user.is_authenticated %}
+
+{% if msgs %}
+<h2 style="text-align:center;">Share your <a href="/msgs/send/{{user.username}}">link</a> with friends or strangers to get hateful messages.</h2>
+  <h1 style="text-align:center; padding-top: 15px;">Messages from your haters!</h1>
+<!--  <fieldset style="text-align: center;">
+        {% for msg in msgs %}
+          <label style="background-color: #d1d8e0; width:610px; margin: 10px 10px; border: solid; border-width: 0.5px; border-radius: 10px">
+            <div>{% load static %} <img src="{% static 'msgs/images/icon.png' %}" style="float: left; height: 50px; width: 50px; margin: 5px 5px;"></div>
+            <p style="display:inline-block; margin-top: 5px;">{{ msg.value }}</p>
+            <br>
+            <p style="text-align:left; margin-left: 15px; margin-top: 15px; display: inline-block">Sent: {{ msg.date }}</p>
+            <button class="btn btn-primary" type="submit" style="float: right; margin: 5px 5px;">Favorite</button>
+          </label><br>
+         {% endfor %}
+  </fieldset> -->
+  <div class="container" style="width:650px;">
+
+    {% for msg in msgs %}
+      <div class="row align-items-center justify-content-center" style="background-color: #d1d8e0; margin: 20px 10px; border: solid; border-width: 0px; border-radius: 10px">
+        <div class="col align-self-start">
+          {% load static %} <img src="{% static 'msgs/images/icon.png' %}" style="height: 50px; width: 50px; margin-top: 7.5px;">
+        </div>
+        <div class="col-8" style="text-align: center; margin-top: 5px;">
+          <p style="overflow-wrap: break-word;">{{ msg.value }}</p>
+          <p>Sent: {{ msg.date }}</p>
+        </div>
+        <div class="col align-self-end">
+          
+          {% if msg.fav %}
+            <a class="btn btn-primary" href="/msgs/fav/{{ msg.id }}" style="margin-bottom: 7.5px; background-color: gray;">Favorited</a>
+          {% else %}
+            <a class="btn btn-primary" href="/msgs/fav/{{ msg.id }}" style="margin-bottom: 7.5px;">Favorite</a>
+          {% endif %}
+
+          </div>
+      </div>
+    {% endfor %}
+
+  </div>
+{% else %}
+  <h2 style="text-align:center; padding-top: 200px;">It seems you don't have any messages in your HaterBox!</h2>
+  <h2 style="text-align:center;">Share your <a href="/msgs/send/{{user.username}}">link</a> with friends or strangers to get hateful messages.</h2>
+{% endif %}
+
+{% else %}
+  <h2 style="text-align:center; padding-top: 200px;">It seems you aren't logged in yet!</h2>
+  <h2 style="text-align:center;"><a href="/login">Login</a> Or <a href="/register">Register</a>.</h2>
+{% endif %}
+
+{% endblock %}
