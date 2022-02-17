@@ -64,16 +64,16 @@
         <div class="col align-self-start">
           {% load static %} <img src="{% static 'msgs/images/icon.png' %}" style="height: 50px; width: 50px; margin-top: 7.5px;">
         </div>
-        <div class="col-8" style="text-align: center; margin-top: 5px;">
+        <div class="col-8 align-self-center" style="text-align: center; margin-top: 5px;">
           <p style="overflow-wrap: break-word;">{{ msg.value }}</p>
           <p>Sent: {{ msg.date }}</p>
         </div>
         <div class="col align-self-end">
           
           {% if msg.fav %}
-            <a class="btn btn-primary" href="/msgs/fav/{{ msg.id }}" style="margin-bottom: 7.5px; background-color: gray; margin-right: 7.5px;">Favorited</a>
+            <a class="btn btn-primary" href="/msgs/fav/{{ msg.id }}" style="margin-bottom: 7.5px;"><i class="bi bi-arrow-through-heart-fill"></i></a>
           {% else %}
-            <a class="btn btn-primary" href="/msgs/fav/{{ msg.id }}" style="margin-bottom: 7.5px;">Favorite</a>
+            <a class="btn btn-primary" href="/msgs/fav/{{ msg.id }}" style="margin-bottom: 7.5px;"><i class="bi bi-arrow-through-heart"></i></a>
           {% endif %}
 
           </div>
