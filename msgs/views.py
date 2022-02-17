@@ -41,7 +41,7 @@ def my_msgs(request):
     if request.user.is_authenticated:
         username = request.user.id
         try:
-            msgs = Message.objects.filter(user = username) 
+            msgs = Message.objects.filter(user = username).order_by('-date')
         except Message.DoesNotExist:
             msgs = None
     else:
