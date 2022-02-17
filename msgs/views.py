@@ -16,17 +16,17 @@ def send(request, username):
             date = datetime.now()
             positive = ['lov', 'positiv', 'thank', 'appreciat', 'beaut', 'pretty',
                         'handsome', 'happ', 'welcom', 'good', 'delight', 'ador', 'kind',
-                        'attractive', ''
+                        'attractive',
                         'حب', 'دعم', 'شكر', 'تقدير', 'قدر', 'جميل', 'أنيق',
                         'أناقة', 'وسيم', 'وسامة', 'سعيد', 'سعاد', 'خير', 'عشق', 'طيب',
-                        'جذاب', 'يسر', 'سرور', 'لطف', ''
+                        'جذاب', 'يسر', 'سرور', 'لطف',
                         ]
-            # for word in positive:
-            #     if word in value:
-            #         a7a = True
-            #         return render(request, 'msgs/send.html', {'form':form, 'a7a':a7a})
-            #     else:
-            #         a7a = False
+            for word in positive:
+                if word in value:
+                    a7a = True
+                    return render(request, 'msgs/send.html', {'form':form, 'a7a':a7a})
+                else:
+                    a7a = False
             try:
                 msg = Message(value=value, user=user, date=date)
                 msg.save()
