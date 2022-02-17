@@ -29,7 +29,7 @@ SECRET_KEY = config('')
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 ALLOWED_HOSTS = [
-    'mysecrethater.herokuapp.com',
+    'mysecrethater.herokuapp.com'
 ]
 
 
