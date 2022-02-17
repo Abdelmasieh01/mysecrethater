@@ -7,9 +7,9 @@ from datetime import datetime
 
 # Create your views here.
 def send(request, username):
+    a7a = False
     if request.method == 'POST':
         form = MessageForm(request.POST)
-        a7a = False
         if form.is_valid():
             value = form.cleaned_data.get('value')
             user = User.objects.get(username=username)
