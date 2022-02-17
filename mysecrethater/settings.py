@@ -85,10 +85,12 @@ WSGI_APPLICATION = 'mysecrethater.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'mysecrethater',
         'HOST': 'localhost',
         'USER': 'root',
+        'PASSWORD': 'a7anek',
+        'PORT': '',
     }
 }
 
