@@ -35,18 +35,6 @@
       <li class="nav-item">
         <a class="nav-link" href="/register">Register</a>
       </li>
-
-      
-    <!--Login--> 
-    <div class="container py-5">
-    <h1>Login</h1>
-        <form method="POST">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <button class="btn btn-primary" type="submit">Login</button>
-      </form>
-      <p class="text-center">Don't have an account? <a href="/register">Create an account</a>.</p>
-    </div>
   
       {% endif %}
     </ul>
@@ -55,6 +43,17 @@
 
 {% if user.is_authenticated %}
   <h1 style="text-align:center; padding-top:180px;">You are already logged in!, Click <a href="/msgs/my_msgs">Here</a> to see your messages</h3>
+{% else %}
+  <!--Login--> 
+  <div class="container py-5">
+    <h1>Login</h1>
+      <form method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button class="btn btn-primary" type="submit">Login</button>
+      </form>
+    <p class="text-center">Don't have an account? <a href="/register">Create an account</a>.</p>
+  </div>
 {% endif %}
 {% endblock %}
 
