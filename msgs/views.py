@@ -9,6 +9,7 @@ from datetime import datetime
 def send(request, username):
     if request.method == 'POST':
         form = MessageForm(request.POST)
+        a7a = False
         if form.is_valid():
             value = form.cleaned_data.get('value')
             user = User.objects.get(username=username)
