@@ -51,9 +51,13 @@
     <strong>Positivity Discovered!</strong> Positive messages are not allowed here!
   </div>
 {% endif %}
-<form method="POST" style="text-align:center; padding-top: 15px;"> 
-    {% csrf_token %}
-    {{ form|crispy }}
-    <button class="btn btn-primary" type="submit">Send</button>
-</form>
+<div class="container">
+  <div class="col-6 align-self-center">
+    <form method="POST" style="text-align:center; padding-top: 15px;"> 
+      {% csrf_token %}
+      {{ form|crispy }}
+      <button class="btn btn-primary" type="submit">Send</button>
+    </form>
+  </div>
+</div>
 {% endblock %}
