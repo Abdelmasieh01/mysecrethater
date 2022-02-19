@@ -35,7 +35,7 @@ def send(request, username):
                 messages.error(request, 'User not found!')
     else:
         form = MessageForm()
-    return render(request, 'msgs/send.html', {'form':form, 'a7a':a7a})
+    return render(request, 'msgs/send.html', {'form':form, 'reject':reject})
 
 def my_msgs(request):
     if request.user.is_authenticated:
