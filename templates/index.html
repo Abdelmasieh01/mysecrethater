@@ -50,6 +50,6 @@
 <h3 style="text-align:center; padding-top: 15px;">The place where all your haters can get to you.</h3>
 {% if user.is_authenticated %}
   <h3 style="text-align:center; padding-top:15px;"><a href="/msgs/my_msgs">See deeply kept grudging messages sent specially to you!</a></h3>
-  <h3 style="text-align:center; padding-top:15px;">Send your<a href="/msgs/send/{{user.username}}"> link </a>to friends or strangers to get messages.</h3>
+  <h3 style="text-align:center; padding-top:15px;">Send your <a href="/msgs/send/{{user.username}}">link</a> to friends or strangers to get messages.</h3>
 {% endif %}
 {% endblock %}
