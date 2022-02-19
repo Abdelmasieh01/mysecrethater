@@ -7,7 +7,7 @@ from datetime import datetime
 
 # Create your views here.
 def send(request, username):
-    a7a = False
+    reject = False
     if request.method == 'POST':
         form = MessageForm(request.POST)
         if form.is_valid():
@@ -23,10 +23,10 @@ def send(request, username):
                         ]
             for word in positive:
                 if word in value:
-                    a7a = True
-                    return render(request, 'msgs/send.html', {'form':form, 'a7a':a7a})
+                    reject = True
+                    return render(request, 'msgs/send.html', {'form':form, 'reject':reject})
                 else:
-                    a7a = False
+                    reject = False
             try:
                 msg = Message(value=value, user=user, date=date)
                 msg.save()
