@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-from dotenv import load_dotenv, find_dotenv
 from decouple import config
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -24,11 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
-DEBUG = False
+DEBUG = True
+#DEBUG = False
 
 ALLOWED_HOSTS = [
-    'mysecrethater.herokuapp.com'
+    'mysecrethater.herokuapp.com',
+    'localhost',
 ]
 
 
@@ -88,7 +88,6 @@ DATABASES = {
         'NAME': config('NAME'),
         'HOST': 'localhost',
         'USER': config('USER'),
-        'PASSWORD': config('PASSWORD'),
     }
 }
 
@@ -99,12 +98,12 @@ DATABASES = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+	'OPTIONS': {
+            'min_length': 6,
+        },
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-	'OPTIONS': {
-            'min_length': 6,
-        }
     },
 ]
 
