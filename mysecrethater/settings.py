@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'bootstrap5',
     'logreg',
     'msgs',
+    
+    'rest_framework',
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
