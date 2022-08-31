@@ -12,7 +12,7 @@ urlpatterns = [
     path('', include('logreg.urls')),
     path('msgs/', include('msgs.urls')),
 
-    path('api', include('api.urls')),
+    path('api/', include('api.urls')),
     path('api-overview/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
