@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'bootstrap5',
     'logreg',
     'msgs',
+    'api',
     
     'rest_framework',
     
