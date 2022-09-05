@@ -11,7 +11,7 @@ from .serializers import MessageSerializer, Message, User, UserSerializer
 # Create your views here.
 
 class UserView(APIView):
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     
     def get(self, format=None):
         users = User.objects.all()
@@ -60,7 +60,7 @@ class MessageViewset(viewsets.ModelViewSet):
         
         if message.is_valid():
             message.save()
-            return Response(status=status.HTTP_200_OK)
+            return Response(data=message.data, status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
     
