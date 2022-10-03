@@ -154,6 +154,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 #Requirement for dj-rest-auth registration
 SITE_ID = 1
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 # Heroku: Update database configuration from $DATABASE_URL.
 import dj_database_url
