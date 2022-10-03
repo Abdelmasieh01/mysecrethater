@@ -35,15 +35,24 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    #Style
     'crispy_forms',
     'bootstrap5',
+    #Local
     'logreg',
     'msgs',
     'api',
-    
+    #rest framework and auth
     'rest_framework',
     'rest_framework.authtoken',
-    
+    'dj_rest_auth',
+    #all_auth for social media auth registration
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
+    'django.contrib.sites',
+    #django installed apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -142,6 +151,9 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+#Requirement for dj-rest-auth registration
+SITE_ID = 1
 
 # Heroku: Update database configuration from $DATABASE_URL.
 import dj_database_url
