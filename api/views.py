@@ -39,7 +39,6 @@ class MessageViewset(viewsets.ModelViewSet):
     queryset = Message.objects.all().order_by('-date')
     serializer_class = MessageSerializer
     authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     @api_view(['GET'])
     def ApiOverview(request):
@@ -55,7 +54,10 @@ class MessageViewset(viewsets.ModelViewSet):
     
     @api_view(['POST'])
     def SendMessage(request):
-        message = MessageSerializer(data=request.data)
+        username= request.post['user']
+        value = request.post['value']
+        user = User.objects.get(username=username)
+        message = MessageSerializer(user=user, value=value)
 
         if Message.objects.filter(**request.data).exists():
             raise serializers.ValidationError('This message is already sent.')
