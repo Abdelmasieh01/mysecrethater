@@ -9,6 +9,7 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from .serializers import MessageSerializer, Message, User, UserSerializer
+from msgs.views import reject_positive
 # Create your views here.
 
 class UserView(APIView):
@@ -54,14 +55,15 @@ class MessageViewset(viewsets.ModelViewSet):
     
     @api_view(['POST'])
     def SendMessage(request):
-        username = request.POST.get('username', False)
-        value = request.POST.get('value', False)
-        user = User.objects.get(username=username)
+        value = request.POST.get('value')
         message = MessageSerializer(data=request.data)
 
         if message.is_valid():
-            message.save(user=user, value=value)
-            return Response(data=message.data, status=status.HTTP_201_CREATED)
+            if reject_positive(value):
+                return Response(data=message.data, stauts=status.HTTP_406_NOT_ACCEPTABLE)
+            else:
+                message.save()
+                return Response(data=message.data, status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
     
