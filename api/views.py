@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 from rest_framework import viewsets
 from rest_framework import permissions
+from rest_framework import authentication
 from rest_framework import status
 from rest_framework import serializers
 from rest_framework.views import APIView
@@ -37,6 +38,7 @@ class UserView(APIView):
 class MessageViewset(viewsets.ModelViewSet):
     queryset = Message.objects.all().order_by('-date')
     serializer_class = MessageSerializer
+    authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     @api_view(['GET'])
@@ -64,9 +66,15 @@ class MessageViewset(viewsets.ModelViewSet):
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
     
-    """ @api_vew(['GET'])
+    @api_view(['GET'])
     def Inbox(request):
-        message =  """
+        user = request.auth.user
+        messages = Message.objects.filter(user=user)
+        serializer = MessageSerializer(messages, many=True)
+        if serializer.is_valid():
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
     
 
 
