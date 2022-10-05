@@ -60,4 +60,5 @@ def reject_positive(value):
         if word in value:
             return True
         else:
-            return False
+            continue
+    return False
