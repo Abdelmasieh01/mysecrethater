@@ -68,7 +68,7 @@ class MessageViewset(viewsets.ModelViewSet):
     
     @api_view(['GET'])
     def Inbox(request):
-        user = request.auth.user
+        user = request.user
         messages = Message.objects.filter(user=user)
         serializer = MessageSerializer(messages, many=True)
         if serializer.is_valid():
