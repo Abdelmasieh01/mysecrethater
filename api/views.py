@@ -54,8 +54,8 @@ class MessageViewset(viewsets.ModelViewSet):
     
     @api_view(['POST'])
     def SendMessage(request):
-        username= request.body['user']
-        value = request.body['value']
+        username = request.POST.get('user', False)
+        value = request.POST.get('value', False)
         user = User.objects.get(username=username)
         message = MessageSerializer(user=user, value=value)
 
