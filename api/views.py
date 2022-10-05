@@ -55,11 +55,10 @@ class MessageViewset(viewsets.ModelViewSet):
     
     @api_view(['POST'])
     def SendMessage(request):
-        value = request.POST.get('value')
         message = MessageSerializer(data=request.data)
 
         if message.is_valid():
-            if reject_positive(value):
+            if reject_positive(message.value):
                 return Response(data=message.data, stauts=status.HTTP_406_NOT_ACCEPTABLE)
             else:
                 message.save()
