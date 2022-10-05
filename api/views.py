@@ -58,10 +58,11 @@ class MessageViewset(viewsets.ModelViewSet):
         message = MessageSerializer(data=request.data)
 
         if message.is_valid():
-            if reject_positive(message.value):
-                return Response(data=message.data, stauts=status.HTTP_406_NOT_ACCEPTABLE)
+            obj = message.save()
+            if reject_positive(obj.value):
+                obj.delete()
+                return Response(stauts=status.HTTP_406_NOT_ACCEPTABLE)
             else:
-                message.save()
                 return Response(data=message.data, status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
