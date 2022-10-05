@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_list_or_404, get_object_or_404
 
 from rest_framework import viewsets
 from rest_framework import permissions
@@ -73,12 +73,9 @@ class MessageViewset(viewsets.ModelViewSet):
     @permission_classes([permissions.IsAuthenticated])
     def Inbox(request):
         user = request.user
-        messages = Message.objects.filter(user=user)
+        messages = get_list_or_404(Message, user=user)
         serializer = MessageSerializer(instance=messages, many=True)
-        if serializer.is_valid():
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
 
 
