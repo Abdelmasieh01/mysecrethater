@@ -74,7 +74,7 @@ class MessageViewset(viewsets.ModelViewSet):
     def Inbox(request):
         user = request.user
         messages = Message.objects.filter(user=user)
-        serializer = MessageSerializer(data=messages, many=True)
+        serializer = MessageSerializer(instance=messages, many=True)
         if serializer.is_valid():
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
