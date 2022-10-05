@@ -59,9 +59,10 @@ class MessageViewset(viewsets.ModelViewSet):
 
         if message.is_valid():
             #obj = message.save()
-            if reject_positive(message.validated_data['value']):
+            if reject_positive(message.validated_data.get('value')):
                 return Response(stauts=status.HTTP_406_NOT_ACCEPTABLE)
             else:
+                message.save()
                 return Response(data=message.data, status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
