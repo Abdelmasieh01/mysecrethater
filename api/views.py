@@ -6,7 +6,7 @@ from rest_framework import authentication
 from rest_framework import status
 from rest_framework import serializers
 from rest_framework.views import APIView
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from .serializers import MessageSerializer, Message, User, UserSerializer
 # Create your views here.
@@ -57,9 +57,9 @@ class MessageViewset(viewsets.ModelViewSet):
         username = request.POST.get('user', False)
         value = request.POST.get('value', False)
         user = User.objects.get(username=username)
-        message = MessageSerializer(user=user, value=value)
+        message = MessageSerializer.data(user=user, value=value)
 
-        if Message.objects.filter(**request.data).exists():
+        if Message.objects.filter(user=user, value=value).exists():
             raise serializers.ValidationError('This message is already sent.')
         
         if message.is_valid():
@@ -69,6 +69,7 @@ class MessageViewset(viewsets.ModelViewSet):
             return Response(status=status.HTTP_404_NOT_FOUND)
     
     @api_view(['GET'])
+    @permission_classes([permissions.IsAuthenticated])
     def Inbox(request):
         user = request.user
         messages = Message.objects.filter(user=user)
