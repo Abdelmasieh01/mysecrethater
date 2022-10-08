@@ -70,6 +70,7 @@ class MessageViewset(viewsets.ModelViewSet):
             else:
                 serializer = MessageSerializer(data=request.data)
                 if serializer.is_valid():
+                    serializer.save()
                     return Response(data=serializer.data, status=status.HTTP_201_CREATED)
                 else:
                      return Response(status=status.HTTP_404_NOT_FOUND)
