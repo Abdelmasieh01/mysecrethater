@@ -63,13 +63,12 @@ class MessageViewset(viewsets.ModelViewSet):
             serializer = UserSerializer(instance=users, many=True)
             return Response(data=serializer.data, status=status.HTTP_200_OK)
         else: 
-            username = request.data['username']
+            user = request.data['user']
             value = request.data['value']
 
             if reject_positive(value):
                 return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
             else:
-                user = get_object_or_404(User, username=username)
                 message = Message(user=user, value=value)
                 message.save()
                 serializer = MessageSerializer(instance=message)
