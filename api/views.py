@@ -12,6 +12,9 @@ from .serializers import MessageSerializer, Message, User, UserSerializer
 from msgs.views import reject_positive
 # Create your views here.
 
+'''
+#Legacy Code
+
 class UserView(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     
@@ -35,7 +38,7 @@ class UserView(APIView):
             },
             status = status.HTTP_400_BAD_REQUEST
         )
-
+'''
 class MessageViewset(viewsets.ModelViewSet):
     queryset = Message.objects.all().order_by('-date')
     serializer_class = MessageSerializer
@@ -53,22 +56,25 @@ class MessageViewset(viewsets.ModelViewSet):
         }
         return Response(api_urls)
     
-    @api_view(['POST'])
+    @api_view(['GET', 'POST'])
     def SendMessage(request):
-        message = MessageSerializer(data=request.data)
+        if request.method == 'GET':
+            users = User.objects.all()
+            serializer = UserSerializer(instance=users, many=True)
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+        else: 
+            username = request.data['username']
+            value = request.data['value']
 
-        if message.is_valid():
-            #obj = message.save()
-            value = message.validated_data.get('value')
-            rejected = reject_positive(value)
-            if rejected:
+            if reject_positive(value):
                 return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
             else:
+                user = get_object_or_404(User, username=username)
+                message = Message(user=user, value=value)
                 message.save()
-                return Response(data=message.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-    
+                serializer = MessageSerializer(instance=message)
+                return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+
     @api_view(['GET'])
     @permission_classes([permissions.IsAuthenticated])
     def Inbox(request):
@@ -76,6 +82,3 @@ class MessageViewset(viewsets.ModelViewSet):
         messages = get_list_or_404(Message, user=user)
         serializer = MessageSerializer(instance=messages, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
-
-
