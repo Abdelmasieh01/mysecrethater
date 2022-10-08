@@ -69,10 +69,12 @@ class MessageViewset(viewsets.ModelViewSet):
             if reject_positive(value):
                 return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
             else:
-                message = Message(user=user, value=value)
-                message.save()
-                serializer = MessageSerializer(instance=message)
-                return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+                serializer = MessageSerializer(data=request.data)
+                if serializer.is_valid():
+                    return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+                else:
+                     return Response(status=status.HTTP_404_NOT_FOUND)
+                
 
     @api_view(['GET'])
     @permission_classes([permissions.IsAuthenticated])
