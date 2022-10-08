@@ -62,8 +62,7 @@ class MessageViewset(viewsets.ModelViewSet):
             users = User.objects.all()
             serializer = UserSerializer(instance=users, many=True)
             return Response(data=serializer.data, status=status.HTTP_200_OK)
-        else: 
-            user = request.data['user']
+        else:
             value = request.data['value']
 
             if reject_positive(value):
