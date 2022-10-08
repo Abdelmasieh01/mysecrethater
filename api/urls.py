@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import MessageViewset, UserView
+from .views import MessageViewset
 
 urlpatterns = [
     path('home/', MessageViewset.ApiOverview, name='home'),
