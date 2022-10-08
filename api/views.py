@@ -80,6 +80,6 @@ class MessageViewset(viewsets.ModelViewSet):
     @permission_classes([permissions.IsAuthenticated])
     def Inbox(request):
         user = request.user
-        messages = get_list_or_404(Message.objects.order_by('-date'), user=user).reverse()
+        messages = get_list_or_404(Message.objects.order_by('-date'), user=user)
         serializer = MessageSerializer(instance=messages, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
