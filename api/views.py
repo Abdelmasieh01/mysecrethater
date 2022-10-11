@@ -39,10 +39,13 @@ class UserView(APIView):
             status = status.HTTP_400_BAD_REQUEST
         )
 '''
+
+
 class MessageViewset(viewsets.ModelViewSet):
     queryset = Message.objects.all().order_by('-date')
     serializer_class = MessageSerializer
-    authentication_classes = [authentication.TokenAuthentication, authentication.SessionAuthentication]
+    authentication_classes = [
+        authentication.TokenAuthentication, authentication.SessionAuthentication]
 
     @api_view(['GET'])
     def ApiOverview(request):
@@ -55,31 +58,26 @@ class MessageViewset(viewsets.ModelViewSet):
             'Delete': '/item/pk/delete'
         }
         return Response(api_urls)
-    
-    @api_view(['GET', 'POST'])
-    def SendMessage(request):
-        if request.method == 'GET':
-            users = User.objects.all()
-            serializer = UserSerializer(instance=users, many=True)
-            return Response(data=serializer.data, status=status.HTTP_200_OK)
-        else:
-            value = request.data['value']
 
-            if reject_positive(value):
-                return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
-            else:
-                serializer = MessageSerializer(data=request.data)
-                if serializer.is_valid():
-                    serializer.save()
-                    return Response(data=serializer.data, status=status.HTTP_201_CREATED)
-                else:
-                     return Response(status=status.HTTP_404_NOT_FOUND)
-                
+    @api_view(['POST'])
+    def SendMessage(request):
+        username = request.data['user']
+        value = request.data['value']
+
+        if reject_positive(value):
+            return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
+        else:
+            user = get_object_or_404(User, username=username)
+            message = Message(user=user, value=value)
+            message.save()
+            serializer = MessageSerializer(instance=message)
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
     @api_view(['GET'])
     @permission_classes([permissions.IsAuthenticated])
     def Inbox(request):
         user = request.user
-        messages = get_list_or_404(Message.objects.order_by('-date'), user=user)
+        messages = get_list_or_404(
+            Message.objects.order_by('-date'), user=user)
         serializer = MessageSerializer(instance=messages, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
