@@ -29,6 +29,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'mysecrethater.herokuapp.com',
     'localhost',
+    'mysecrethater.up.railway.app',
 ]
 
 
